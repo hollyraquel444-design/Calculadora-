@@ -104,3 +104,95 @@ def main():
             print("Resultado:", calc.dividir())  
                           
 main()
+
+
+
+
+
+
+
+Calculadora.py
+
+class Calculadora:
+    def __init__(self):
+        self.historial = []
+
+    def interpretar_expresion(self, expresion):
+        """
+        Interpreta la expresión matemática ingresada y realiza la operación correspondiente.
+        """
+        partes = expresion.split()
+        if len(partes) != 3:
+            raise ValueError("La expresión debe contener exactamente tres números y dos operadores.")
+
+        num1 = float(partes[0])
+        operador1 = partes[1]
+        num2 = float(partes[2])
+        operador2 = partes[3]
+        num3 = float(partes[4])
+
+        if operador1 == '+':
+            resultado = num1 + num2
+        elif operador1 == '-':
+            resultado = num1 - num2
+        elif operador1 == '*':
+            resultado = num1 * num2
+        elif operador1 == '/':
+            if num2 == 0:
+                raise ValueError("Error: División entre cero.")
+            resultado = num1 / num2
+        else:
+            raise ValueError("Operador no válido.")
+
+        if operador2 == '+':
+            resultado += num3
+        elif operador2 == '-':
+            resultado -= num3
+        elif operador2 == '*':
+            resultado *= num3
+        elif operador2 == '/':
+            if num3 == 0:
+                raise ValueError("Error: División entre cero.")
+            resultado /= num3
+        else:
+            raise ValueError("Operador no válido.")
+
+        self.historial.append(expresion)
+        return resultado
+
+    def ver_historial(self):
+        for operacion in self.historial:
+            print(operacion)
+
+
+
+
+
+
+principal.py
+
+from calculadora import Calculadora
+
+def main():
+    calc = Calculadora()
+    print("Calculadora Básica. Escribe 'salir' para terminar o 'historial' para ver operaciones.")
+
+    while True:
+        entrada = input("Ingresa la operación (ejemplo: 5 + 5 + 5): ")
+
+        if entrada.strip().lower() == "salir":
+            print("¡Hasta pronto!")
+            break
+
+        if entrada.strip().lower() == "historial":
+            calc.ver_historial()
+            continue
+
+        try:
+            resultado = calc.interpretar_expresion(entrada)
+            print("Resultado:", resultado)
+        except ValueError as e:
+            print(e)
+
+if __name__ == "__main__":
+    main()
